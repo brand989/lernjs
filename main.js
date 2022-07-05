@@ -1,55 +1,77 @@
-/* 1 task
 
-i = 0;
+/* task 1
 
-while (i <= 100) {
-    let k = 0;
-    for(let j = 2; j < i; j++) {
-        if(i % j == 0){
-            k++
-        }
+let numberInObject = function(number){
+    
+    if(number > 999){
+        console.log("число больше 999");
+        return {};
     }
-    if(k==0) console.log(i)    
-    i++
-};
-*/
 
-/* 3 task
+    let units = number % 10;
+    let tens = Math.floor(number % 100 / 10);
+    let hundreds = Math.floor(number / 100); 
 
-for(let i = 0; i <= 9; console.log(i++));
+    let Object = {'единицы': units, 'десятки': tens, 'сотни': hundreds};
 
-*/
+    console.log(Object);
 
-/* 4 task
+    return Object;
 
-let arr = ['х']
+   
+}
 
-for(let i = 0; i < 20; i++){
-    console.log(arr.join(''))
-    arr.push('x')
-};
+numberInObject(4561);
 
 */
 
-
-
-
-let basket = {
-    products: [{name: 'laptop', price: 3500},{name: 'mobeli', price: 4500}],
-    count: 0,
-
-    countBasketPrice(){
-
-        this.count = this.products.reduce(function(sum, elem) {
-            return sum + elem.price;
-        }, 0);
-
-        
+class Product {
+  
+    constructor (name,  price) {
+        this.name = name
+        this.price = price
     }
 
 
 }
 
-basket.countBasketPrice();
 
-console.log(Object.values(basket));
+let laptop = new Product('laptop', 4500);
+let mobile = new Product('mobile', 5500);
+
+
+class Basket {
+    products = []
+    count = 0
+
+    constructor(){
+        this.products = this.products
+    }
+
+    countBasketPrice(){
+        this.count = this.products.reduce(function(sum, elem) {
+            return sum + elem.price;
+        }, 0);
+    }
+
+    addProducts(product){
+        this.products.push(product)
+    }
+
+
+}
+
+
+
+const basketUser = new Basket();
+
+basketUser.addProducts(laptop);
+basketUser.addProducts(mobile);
+
+basketUser.countBasketPrice();
+
+console.log(Object.values(basketUser));
+
+
+
+
