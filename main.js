@@ -26,8 +26,8 @@ numberInObject(4561);
 */
 
 class Product {
-  
-    constructor (name,  price) {
+
+    constructor(name, price) {
         this.name = name
         this.price = price
     }
@@ -44,17 +44,16 @@ class Basket {
     products = []
     count = 0
 
-    constructor(){
+    constructor() {
         this.products = this.products
     }
-
-    countBasketPrice(){
-        this.count = this.products.reduce(function(sum, elem) {
+    countBasketPrice() {
+        this.count = this.products.reduce(function (sum, elem) {
             return sum + elem.price;
         }, 0);
     }
 
-    addProducts(product){
+    addProducts(product) {
         this.products.push(product)
     }
 
