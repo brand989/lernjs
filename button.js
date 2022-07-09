@@ -3,6 +3,7 @@ class Button {
 
   constructor(text) {
     this.text = text
+    
   }
 
   onClick() {
@@ -52,10 +53,3 @@ class ButtonOther extends Button {
   }
 }
 
-const MyMainBlock = document.querySelector('main')
-const MyButton = new Button('Click me!')
-MyButton.render(MyMainBlock)
-const MyGreenButton = new GreenButton('Click me (green)!')
-MyGreenButton.render(MyMainBlock)
-const MyOtherButton = new ButtonOther('Click me (other)!')
-MyOtherButton.render(MyMainBlock)

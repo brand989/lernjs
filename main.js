@@ -1,30 +1,3 @@
-
-/* task 1
-
-let numberInObject = function(number){
-    
-    if(number > 999){
-        console.log("число больше 999");
-        return {};
-    }
-
-    let units = number % 10;
-    let tens = Math.floor(number % 100 / 10);
-    let hundreds = Math.floor(number / 100); 
-
-    let Object = {'единицы': units, 'десятки': tens, 'сотни': hundreds};
-
-    console.log(Object);
-
-    return Object;
-
-   
-}
-
-numberInObject(4561);
-
-*/
-
 class Product {
 
     constructor(name, price) {
@@ -32,45 +5,119 @@ class Product {
         this.price = price
     }
 
+    render() {
+        let main = document.querySelector('main')
+        let list = document.createElement('div')
+        main.appendChild(list)
+        list.className = 'catalog'
+        let item = document.createElement('div')
+        item.innerHTML = `${this.name} стоит ${this.price}`
+        list.appendChild(item)
+        let button = new Button('Купить')
+        button.render(item, this.name, this.price )
+
+    }
+
+}
+
+class List {
+    _products = []
+
+    constructor(...products) {
+        this._products.push(...products)
+        this.render()
+    }
+
+    render(){
+        this._products.forEach(element => element.render());
+    }
 
 }
 
 
-let laptop = new Product('laptop', 4500);
-let mobile = new Product('mobile', 5500);
-
-
 class Basket {
-    products = []
-    count = 0
+    _products = []
 
-    constructor() {
-        this.products = this.products
+    constructor(...products) {
+        this._products.push(...products)
     }
+
     countBasketPrice() {
-        this.count = this.products.reduce(function (sum, elem) {
+        return this._products.reduce(function (sum, elem) {
             return sum + elem.price;
         }, 0);
     }
 
     addProducts(product) {
-        this.products.push(product)
+        this._products.push(product)
+        this.render()
     }
 
+    render() {
+        let header = document.querySelector('header')
+        let list = document.createElement('div')
+        header.innerHTML = ''
+        header.appendChild(list)
+        list.className = 'basket'
+
+        for (let i = 0; i < this._products.length; i++) {
+            let item = document.createElement('div')
+            item.innerHTML = `${this._products[i].name} по цене ${this._products[i].price}`
+            list.appendChild(item)
+        }
+
+        let totalPrice = document.createElement('div')
+        totalPrice.innerHTML = `Итого стоимость ${this.countBasketPrice()}`
+        header.appendChild(totalPrice)
+
+    }
 
 }
 
 
+class Button {
+    text = ''
 
-const basketUser = new Basket();
+    constructor(text) {
+        this.text = text
+    }
+
+    onClick(fn, item) {
+        console.log(fn, item)
+        fn(item)
+
+    }
+
+    getHTML() {
+        const btn = document.createElement('div')
+        btn.innerHTML = `<span>${this.text}</span>`
+        return btn
+    }
+
+    render(blockToRender, name, price) {
+        const btn = this.getHTML()
+        blockToRender.appendChild(btn)
+
+        btn.addEventListener('click', () => {
+            this.onClick(basketUser.addProducts.bind(basketUser), {name, price})
+        })
+    }
+}
+
+
+
+
+let laptop = new Product('laptop', 4500);
+let mobile = new Product('mobile', 5500);
+let tablet = new Product('tablet', 2100);
+
+const basketUser = new Basket(tablet);
+
+
+const newList = new List(mobile, tablet, laptop)
 
 basketUser.addProducts(laptop);
-basketUser.addProducts(mobile);
-
-basketUser.countBasketPrice();
-
-console.log(Object.values(basketUser));
 
 
-
+basketUser.render()
 
