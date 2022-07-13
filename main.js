@@ -1,25 +1,26 @@
 class Product {
 
-
     constructor(name, price) {
         this.name = name
         this.price = price
         this.count = 1
     }
 
-
-
     render() {
-        let main = document.querySelector('main')
+        let main = document.querySelector('.catalog')
         let list = document.createElement('div')
         main.appendChild(list)
-        list.className = 'catalog'
-        let item = document.createElement('div')
-        item.innerHTML = `${this.name} стоит ${this.price}`
-        list.appendChild(item)
-        let button = new Button('Купить')
-        button.render(item, '+', this)
+        list.className = 'catalog-items'
+        let itemName = document.createElement('div')
+        itemName.innerHTML = `Название: ${this.name}`
+        list.appendChild(itemName)
 
+        let itemPrice = document.createElement('div')
+        itemPrice.innerHTML = `Стоимость: ${this.price} рублей`
+        list.appendChild(itemPrice)
+
+        let button = new ButtonBasket('Купить', 'catalog-button', 'inc')
+        button.render(list, this)
     }
 
 
@@ -60,7 +61,28 @@ class Basket {
         }
 
         Basket._instance = this
+
+        this.init()
     }
+
+
+    init() {
+
+        let header = document.querySelector('header')
+        let listbasket = document.createElement('div')
+        listbasket.className = 'basket'
+
+        let buttonBasketInit = new Button('корзина', 'button-header')
+       
+        let fn = function () {
+            listbasket.classList.toggle('openBasket')
+            
+        }
+
+        buttonBasketInit.render(header, fn)
+        header.appendChild(listbasket)
+    }
+
 
     countBasketPrice() {
         return this._products.reduce(function (sum, elem) {
@@ -68,71 +90,69 @@ class Basket {
         }, 0);
     }
 
+
+    findProduct(product) {
+        return this._products.filter((item) => product.name == item.name).length > 0
+    }
+
+
     addProducts(product) {
 
-        let j = 0
-        for (let i = 0; i < this._products.length; i++) {
-
-            if (product.name == this._products[i].name) {
-                this._products[i].inc()
-            } else {
-                j++
-            }
-        }
-
-        if (j == this._products.length) {
+        if (this.findProduct(product)) {
+            product.inc()
+        } else {
             this._products.push(product)
-
         }
 
         this.render()
-
     }
 
     delProducts(product) {
-
-        for (let i = 0; i < this._products.length; i++) {
-
-            if (product.name == this._products[i].name) {
-
-                if (this._products[i].count == 1) {
-                    this._products.splice([i], 1)
-                    console.log(this._products)
-                } else {
-                    this._products[i].dec()
-                }
-            }
+        if (!this.findProduct(product)) {
+            return product
         }
 
-
+        if (product.count == 1) {
+            this._products.splice(this._products.indexOf(product), 1)
+        } else {
+            product.dec()
+        }
 
         this.render()
-
     }
 
-
-
     render() {
-        let header = document.querySelector('header')
+        let listbasket = document.querySelector('.basket')
         let list = document.createElement('div')
-        header.innerHTML = ''
-        header.appendChild(list)
-        list.className = 'basket'
+        listbasket.innerHTML = ''
+        listbasket.appendChild(list)
+        list.className = 'basket-list'
 
-        for (let i = 0; i < this._products.length; i++) {
-            let item = document.createElement('div')
-            item.innerHTML = `${this._products[i].name} по цене ${this._products[i].price} в количестве  ${this._products[i].count}`
-            list.appendChild(item)
-            let buttonInc = new Button('+')
-            buttonInc.render(item, '+', this._products[i])
 
-            let buttonDec = new Button('-')
-            buttonDec.render(item, '-', this._products[i])
+        this._products.forEach((item) => {
+            let div = document.createElement('div')
+            div.innerHTML = `${item.name} по цене ${item.price} в количестве  ${item.count}`
+            list.appendChild(div)
+
+            let buttonInc = new ButtonBasket('+','butten-count','inc')
+            buttonInc.render(div, item)
+
+            let buttonDec = new ButtonBasket('-', 'butten-count', 'dec')
+            buttonDec.render(div, item)
+        })
+
+
+        if (!this._products.length) {
+            let emptyBasket = document.createElement('div')
+            emptyBasket.innerHTML = `Корзина пуста`
+            listbasket.appendChild(emptyBasket)
+        } else {
+            let totalPrice = document.createElement('div')
+            totalPrice.innerHTML = `Итого стоимость ${this.countBasketPrice()}`
+            listbasket.appendChild(totalPrice)
         }
 
-        let totalPrice = document.createElement('div')
-        totalPrice.innerHTML = `Итого стоимость ${this.countBasketPrice()}`
-        header.appendChild(totalPrice)
+
 
     }
 
@@ -142,46 +162,65 @@ class Basket {
 class Button {
     text = ''
 
-    constructor(text) {
+    constructor(text, clss) {
         this.text = text
+        this.clss = clss
     }
 
     onClick(fn, item) {
-
         fn(item)
     }
 
     getHTML() {
         const btn = document.createElement('div')
         btn.innerHTML = `<span>${this.text}</span>`
+        btn.classList.add('button')
+        btn.classList.add(this.clss)
         return btn
     }
 
-    render(blockToRender, or, obj) {
-
+    render(blockToRender, fn, item) {
         const btn = this.getHTML()
+        console.log(fn)
         blockToRender.appendChild(btn)
 
+        btn.addEventListener('click', () => this.onClick(fn, item))
+
+    }
+}
+
+
+
+class ButtonBasket extends Button {
+
+    constructor(text, clss, task) {
+        super(text, clss)
+        this.task = task
+    }
+
+
+    render(blockToRender, item) {
+        const btn = this.getHTML()
+        blockToRender.appendChild(btn)
 
         btn.addEventListener('click', () => {
             const basketUser = new Basket()
 
-            if (or == "+") {
+            if (this.task == 'inc') {
                 let fn = basketUser.addProducts.bind(basketUser)
-                this.onClick(fn, obj)
-            } else if (or == "-") {
+                this.onClick(fn, item)
+            } else if (this.task == 'dec') {
                 let fn = basketUser.delProducts.bind(basketUser)
-                this.onClick(fn, obj)
+                this.onClick(fn, item)
             }
 
-            
-
-           
         })
-
-
     }
+
 }
+
+
+
 
 
 
