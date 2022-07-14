@@ -181,7 +181,6 @@ class Button {
 
     render(blockToRender, fn, item) {
         const btn = this.getHTML()
-        console.log(fn)
         blockToRender.appendChild(btn)
 
         btn.addEventListener('click', () => this.onClick(fn, item))
