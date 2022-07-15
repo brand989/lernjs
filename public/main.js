@@ -41,20 +41,114 @@ class List {
 
     constructor(...products) {
         this._products.push(...products)
-        this.render()
     }
+
+
+    fetchPoducts() {
+        return [
+            {
+                name: 'laptop',
+                price: 4500
+            },
+            {
+                name: 'mobile',
+                price: 4500
+            },
+            {
+                name: 'tablet',
+                price: 4500
+            },
+            {
+                name: 'laptop3',
+                price: 4500
+            },
+            {
+                name: 'laptop2',
+                price: 4500
+            },
+            {
+                name: 'mobile2',
+                price: 4500
+            },
+            {
+                name: 'tablet2',
+                price: 4500
+            },
+            {
+                name: 'decstop',
+                price: 4500
+            },
+            {
+                name: 'display',
+                price: 4500
+            }
+        ]
+    }
+
+
 
     render() {
         this._products.forEach(element => element.render());
+        
     }
 
 }
 
 
-class Basket {
+class catalogList extends List {
+    constructor(...products) {
+        super(...products)
+        this.numProductFetchList = 0
+        this.availableProducts = true
+    }
+
+    addCatalogList(product) {
+        this._products.push(product)
+    }
+
+    fillList() {
+        
+        let item = this.fetchPoducts()[this.numProductFetchList]
+
+        if(item){
+            this._products.push(new Product(item.name, item.price))
+        } 
+
+        this.numProductFetchList++
+
+        if(!this.fetchPoducts()[this.numProductFetchList]){
+         this.availableProducts = false 
+        }
+    
+        this.render()
+        
+    }
+
+
+    render(){
+        let catalog = document.querySelector('.catalog')
+        catalog.innerHTML = ''
+
+        this._products.forEach(element => element.render());
+
+        if(this.availableProducts){
+            let buttonAddProduct = new Button('Добавить еще', 'button-add')
+            buttonAddProduct.render(catalog, this.fillList.bind(this))
+        }
+
+    }
+
+}
+
+
+
+class Basket extends List {
     _products = []
 
-    constructor() {
+    constructor(...products) {
+
+        super(...products)
+
 
         if (Basket._instance) {
             return Basket._instance
@@ -63,6 +157,8 @@ class Basket {
         Basket._instance = this
 
         this.init()
+
+
     }
 
 
@@ -71,16 +167,24 @@ class Basket {
         let header = document.querySelector('header')
         let listbasket = document.createElement('div')
         listbasket.className = 'basket'
+        listbasket.classList.add('openBasket')
+
+
 
         let buttonBasketInit = new Button('корзина', 'button-header')
-       
+
         let fn = function () {
             listbasket.classList.toggle('openBasket')
-            
+
         }
 
         buttonBasketInit.render(header, fn)
         header.appendChild(listbasket)
+
+        let emptyBasket = document.createElement('div')
+        emptyBasket.innerHTML = `Корзина пуста`
+        listbasket.appendChild(emptyBasket)
+
     }
 
 
@@ -107,7 +211,7 @@ class Basket {
         this.render()
     }
 
-    delProducts(product) {
+    decProducts(product) {
         if (!this.findProduct(product)) {
             return product
         }
@@ -120,6 +224,19 @@ class Basket {
 
         this.render()
     }
+
+
+    deleteProduct(product) {
+        if (!this.findProduct(product)) {
+            return product
+        }
+
+        product.count = 1
+        this._products.splice(this._products.indexOf(product), 1)
+
+        this.render()
+    }
+
 
     render() {
         let listbasket = document.querySelector('.basket')
@@ -134,11 +251,14 @@ class Basket {
             div.innerHTML = `${item.name} по цене ${item.price} в количестве  ${item.count}`
             list.appendChild(div)
 
-            let buttonInc = new ButtonBasket('+','butten-count','inc')
+            let buttonInc = new ButtonBasket('+', 'butten-count', 'inc')
             buttonInc.render(div, item)
 
             let buttonDec = new ButtonBasket('-', 'butten-count', 'dec')
             buttonDec.render(div, item)
+
+            let buttonDelete = new ButtonBasket('Удалить товар', 'butten-count', 'del')
+            buttonDelete.render(div, item)
         })
 
 
@@ -168,6 +288,7 @@ class Button {
     }
 
     onClick(fn, item) {
+
         fn(item)
     }
 
@@ -209,7 +330,10 @@ class ButtonBasket extends Button {
                 let fn = basketUser.addProducts.bind(basketUser)
                 this.onClick(fn, item)
             } else if (this.task == 'dec') {
-                let fn = basketUser.delProducts.bind(basketUser)
+                let fn = basketUser.decProducts.bind(basketUser)
+                this.onClick(fn, item)
+            } else if (this.task == 'del') {
+                let fn = basketUser.deleteProduct.bind(basketUser)
                 this.onClick(fn, item)
             }
 
@@ -221,19 +345,13 @@ class ButtonBasket extends Button {
 
 
 
-
-
-
-let laptop = new Product('laptop', 4500);
-let mobile = new Product('mobile', 5500);
-let tablet = new Product('tablet', 2100);
-
 const basketUser = new Basket();
 
 
-const newList = new List(mobile, tablet, laptop)
+const newList = new catalogList()
 
-basketUser.addProducts(laptop);
+newList.fillList()
+
+newList.render()
 
 
-basketUser.render()
