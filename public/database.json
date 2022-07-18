@@ -1,0 +1,38 @@
+ [{
+    "name": "laptop",
+    "price": "4500"
+},
+{
+    "name": "mobile",
+    "price": "4500"
+},
+{
+    "name": "tablet",
+    "price": "4500"
+},
+{
+    "name": "laptop3",
+    "price": "4500"
+},
+{
+    "name": "laptop2",
+    "price": "4500"
+},
+{
+    "name": "mobile2",
+    "price": "4500"
+},
+{
+    "name": "tablet2",
+    "price": "4500"
+},
+{
+    "name": "decstop",
+    "price": "4500"
+},
+{
+    "name": "display",
+    "price": "4500"
+}
+]
+
