@@ -19,6 +19,7 @@ class Product {
         itemPrice.innerHTML = `Стоимость: ${this.price} рублей`
         list.appendChild(itemPrice)
 
+
         let button = new BasketButton('Купить', 'catalog-button', (item) => {
             const basketUser = new Basket()
             basketUser.addProducts(item)
@@ -251,7 +252,6 @@ class Button {
 
     onClick(fn, item) {
         fn(item)
-
     }
 
     getHTML() {
@@ -289,3 +289,68 @@ class BasketButton extends Button {
 const basketUser = new Basket();
 const newList = new catalogList()
 newList.fetchPoducts()
+
+
+
+
+class Form {
+    inputs = []
+
+    constructor(...inputs) {
+        this.inputs.push(...inputs)
+
+    }
+
+
+    render() {
+        const form = document.createElement('form')
+        const feedback = document.querySelector('.feedback')
+        form.setAttribute('action', 'Post')
+        feedback.appendChild(form)
+
+        form.innerHTML = `
+            <p>Заполните форму</p>
+        `
+
+        this.inputs.forEach(element => element.render());
+
+        const submitName = document.createElement('input')
+        submitName.setAttribute('type', 'submit')
+
+        // submitName.addEventListener('click', (event) => this.name = inputName.value)
+
+        form.appendChild(submitName)
+
+    }
+}
+
+
+
+class Input {
+    value = ''
+
+
+    constructor(){
+        this.value
+
+    }
+
+    render(placeTpRender){
+        placeTpRender = document.querySelector('form')
+
+        const inputName = document.createElement('input')
+        inputName.setAttribute('type', 'text')
+        inputName.setAttribute('name', 'name')
+
+        inputName.addEventListener('input', (event) => this.value = inputName.value)
+
+        placeTpRender.appendChild(inputName)
+    }
+}
+
+
+const inputName = new Input()
+const feedbackForm = new Form(inputName)
+
+
+feedbackForm.render()
