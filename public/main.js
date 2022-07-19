@@ -48,48 +48,6 @@ class List {
     }
 
 
-    fetchPoducts() {
-        return [{
-                name: 'laptop',
-                price: 4500
-            },
-            {
-                name: 'mobile',
-                price: 4500
-            },
-            {
-                name: 'tablet',
-                price: 4500
-            },
-            {
-                name: 'laptop3',
-                price: 4500
-            },
-            {
-                name: 'laptop2',
-                price: 4500
-            },
-            {
-                name: 'mobile2',
-                price: 4500
-            },
-            {
-                name: 'tablet2',
-                price: 4500
-            },
-            {
-                name: 'decstop',
-                price: 4500
-            },
-            {
-                name: 'display',
-                price: 4500
-            }
-        ]
-    }
-
-
-
     render() {
         this._products.forEach(element => element.render());
 
@@ -101,7 +59,7 @@ class List {
 class catalogList extends List {
     constructor(...products) {
         super(...products)
-        this.numProductFetchList = 0
+        this.numProduct = 0
         this.availableProducts = true
     }
 
@@ -109,22 +67,16 @@ class catalogList extends List {
         this._products.push(product)
     }
 
-    fillList() {
+    async fetchPoducts() {
+        let response = await fetch('http://localhost:3000/database.json')
+        let json = await response.json()
+        let data = await json.data
 
-        let item = this.fetchPoducts()[this.numProductFetchList]
-
-        if (item) {
+        data.forEach(item => {
             this._products.push(new Product(item.name, item.price))
-        }
-
-        this.numProductFetchList++
-
-        if (!this.fetchPoducts()[this.numProductFetchList]) {
-            this.availableProducts = false
-        }
+        })
 
         this.render()
-
     }
 
 
@@ -132,10 +84,19 @@ class catalogList extends List {
         let catalog = document.querySelector('.catalog')
         catalog.innerHTML = ''
 
-        this._products.forEach(element => element.render());
+
+        for (let i = 0; i < this.numProduct + 2; i++) {
+            if (this._products[i]) {
+                this._products[i].render()
+            }
+        }
+
+        this.numProduct += 2
+
+        this.availableProducts = this._products[this.numProduct]
 
         if (this.availableProducts) {
-            let buttonAddProduct = new Button('Добавить еще', 'button-add', this.fillList.bind(this))
+            let buttonAddProduct = new Button('Добавить еще', 'button-add', this.render.bind(this))
             buttonAddProduct.render(catalog)
         }
 
@@ -152,7 +113,6 @@ class Basket extends List {
 
         super(...products)
 
-
         if (Basket._instance) {
             return Basket._instance
         }
@@ -160,7 +120,6 @@ class Basket extends List {
         Basket._instance = this
 
         this.init()
-
 
     }
 
@@ -202,7 +161,6 @@ class Basket extends List {
 
 
     addProducts(product) {
-
 
         if (this.findProduct(product)) {
             product.inc()
@@ -313,7 +271,6 @@ class Button {
 }
 
 
-
 class BasketButton extends Button {
     constructor(text, clss, clb, obj) {
         super(text, clss, clb)
@@ -329,12 +286,6 @@ class BasketButton extends Button {
 }
 
 
-
 const basketUser = new Basket();
-
-
 const newList = new catalogList()
-
-newList.fillList()
-
-newList.render()
+newList.fetchPoducts()
