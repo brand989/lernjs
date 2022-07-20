@@ -317,10 +317,6 @@ class Form {
         const submitName = document.createElement('input')
         submitName.setAttribute('type', 'submit')
 
-        // submitName.addEventListener('click', (event) => this.name = inputName.value)
-
-        form.appendChild(submitName)
-
     }
 }
 
@@ -328,29 +324,66 @@ class Form {
 
 class Input {
     value = ''
+    type = ''
+    name = ''
+    valid = true
 
 
-    constructor(){
+    constructor(type, name, regexp) {
         this.value
+        this.type = type
+        this.name = name
+        this.regexp = regexp
+    }
+
+
+    isValid(value) {
+        const regexp = this.regexp
+        return value.match(regexp)
 
     }
 
-    render(placeTpRender){
+    render(placeTpRender) {
         placeTpRender = document.querySelector('form')
+        const fieldset = document.createElement('fieldset')
+
+        if (this.type == 'text') {
+            fieldset.innerHTML = `<legend>${this.name}</legend>`
+        }
 
         const inputName = document.createElement('input')
-        inputName.setAttribute('type', 'text')
-        inputName.setAttribute('name', 'name')
+        inputName.setAttribute('type', this.type)
+        inputName.setAttribute('name', this.name)
 
-        inputName.addEventListener('input', (event) => this.value = inputName.value)
+        if(!this.valid){
+            inputName.classList.add('red-border')
+            console.log('red-border')
+        } else {
+            inputName.classList.remove('red-border')
+        }
 
-        placeTpRender.appendChild(inputName)
+
+        inputName.addEventListener('input', (event) => {
+
+            if (!this.isValid(inputName.value)) {
+                inputName.classList.add('red-border')
+            } else {
+                inputName.classList.remove('red-border')
+            }
+
+        })
+
+        placeTpRender.appendChild(fieldset)
+        fieldset.appendChild(inputName)
     }
 }
 
 
-const inputName = new Input()
-const feedbackForm = new Form(inputName)
+const inputName = new Input('text', 'name', /^[a-zA-Z]+$/ )
+const inputPhone = new Input('text', 'phone', /^\+[78]\(\d{3}\)\d{3}-\d{4}\b/)
+const inputMail = new Input('text', 'mail', /^[a-z]+[\.\-]*?[a-z]+\@[a-z]+\.ru/)
+const sumbitMail = new Input('submit', 'button')
+const feedbackForm = new Form(inputName, inputPhone, inputMail, sumbitMail)
 
 
 feedbackForm.render()
