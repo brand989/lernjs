@@ -1,0 +1,7 @@
+{
+    "1":{ "id": 1, "name": "Shirt", "price": 150 },
+    "2":{ "id": 2, "name": "Socks", "price": 15 },
+    "3":{ "id": 3, "name": "mobile", "price": 15 },
+    "4":{ "id": 4, "name": "tablet", "price": 15 },
+    "5":{ "id": 5, "name": "laptop", "price": 15 }
+} 

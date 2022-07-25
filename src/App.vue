@@ -2,50 +2,53 @@
   <div>
     <header class="header">
       <div v-bind:class="[logo]"> My shop </div>
-      <div v-bind:class="{ cart: isActive }"></div>
+      <div class="cart" v-bind:class="{ invisible: isActive }">
+        <CartList />
+      </div>
+      <Button @myEvent="eventclick">Корзина</Button>
 
-      <Button :name="nameButton" @myEvent="eventclick" />
-      <!-- <Cart /> -->Корзина
 
     </header>
     <main>
       <h1>Товары</h1>
-      <div class="todo-item" v-for="item in GOODS" :key="item">{{ item }}</div>
+      <GoodList />
     </main>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Button from './Button.vue'
+import Button from './components/Button.vue'
+import GoodList from './components/GoodList.vue'
+import CartList from './components/CartList.vue'
 
 
 export default {
   components: {
-    Button
+    Button, GoodList, CartList
   },
   data() {
     return {
       logo: 'logo',
-      isActive: true,
-      nameButton: 'купить',
-      num: 3,
+      isActive: true
     }
   },
   methods: {
     eventclick() {
-      this.addInGoods(`good${this.num}`)
-      this.num++
+      this.isActive = this.isActive ? false : true
     },
 
     ...mapActions('goods', [
-      'addInGoods',
+      'requestData',
     ]),
 
   },
 
   computed: {
     ...mapGetters('goods', ['GOODS']),
+  },
+  mounted() {
+    this.requestData(1)
   }
 
 };
@@ -74,5 +77,19 @@ export default {
 
 main h1 {
   padding: 30px;
+}
+
+.invisible {
+  display: none;
+}
+
+
+.cart {
+  position: absolute;
+  color: white;
+  background-color: #eb6fd6;
+  right: 10px;
+  top: 150px;
+  padding: 15px;
 }
 </style>

@@ -1,21 +1,24 @@
+const express = require('express')
 const fs = require('fs')
-const http = require('http')
+const app = express()
+let port = process.env.PORT || 3000
+const bodyParser = require('body-parser')
 
-const server = http.createServer((req, res) => {
-    const url = req.url
-    console.log(url)
 
-    try {
-        body = fs.readFileSync(`./public/${url}`)
-    } catch (err) {     
-        body = fs.readFileSync(`./public/index.html`)
-    }
+app.use(express.static('./public'))
+app.use(bodyParser.json())
 
-    res.end(body)
+app.listen(port, () => {
+    console.log("Server started")
 })
 
-const port = process.env.PORT || 3000
 
-server.listen(port, () => {
-    console.log(`Server running`);
+
+
+app.get('/itemslist/:page', (req, res) => {
+    const number = req.params.page
+    fs.readFile(`./public/database/database${number}.json`, 'utf8', (err, data) => {
+        console.log(err)
+        res.send(data)
+    })
 })

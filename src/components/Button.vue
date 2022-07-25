@@ -1,12 +1,12 @@
 <template>
-    <div class="button" @click="onBtnClick">{{ name }}</div>
+    <div class="button" @click="onBtnClick">
+    <slot></slot>
+    </div>
 </template>
 
 <script>
 export default {
-    props: {
-        name: String
-    },
+  
     methods: {
         onBtnClick() {
             this.$emit('myEvent')
