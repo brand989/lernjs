@@ -22,6 +22,10 @@ export default {
     components: { Good, Button },
 
     methods: {
+        // findGoods(id){
+        //     return store.goods.getters.GOODSONCART.filter(item => item.id == id).length
+        // },
+
         eventclick(id) {
             this.addGoodInCart(id)
         },
@@ -31,7 +35,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters('goods', ['GOODSONPAGE']),
+        ...mapGetters('goods', ['GOODSONPAGE'], ['GOODSONCART']),
     }
 
 }

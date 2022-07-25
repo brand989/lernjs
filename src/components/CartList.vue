@@ -1,8 +1,9 @@
 <template>
     <div class="cart-list">
         <div class="goods" v-for="item in GOODSONCART" :key="item">
-            <Good :good="item" />
-            <Button @myEvent="eventclick(item)">+</Button>
+            <Good :good="item.id" />
+            <p>{{ item.count }} штук</p>
+            <Button @myEvent="eventclick(item.id)">+</Button>
         </div>
 
     </div>
@@ -21,8 +22,11 @@ export default {
     },
     methods: {
         eventclick(id) {
-            console.log('click')
-        }
+            this.addGoodInCart(id)
+        },
+        ...mapActions('goods', [
+            'addGoodInCart',
+        ]),
     },
 
 }
