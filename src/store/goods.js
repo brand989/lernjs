@@ -14,6 +14,12 @@ const getters = {
     },
     GOODSONCART: state => {
         return state.goodsOnCart
+    },
+    SUMPRODUCTPRICECART: state => {
+       return state.goodsOnCart.reduce((sum, item) => {
+            return sum + item.count*state.goods[item.id].price
+            
+        }, 0)
     }
 }
 const actions = {
@@ -34,16 +40,24 @@ const actions = {
             })
     },
 
-    addGoodInCart({commit}, idGood) {
+    addGoodInCart({
+        commit
+    }, idGood) {
         commit('addInCart', idGood)
     },
-    incGoodInCart({commit}, idGood){
+    incGoodInCart({
+        commit
+    }, idGood) {
         commit('incInCart', idGood)
     },
-    decGoodInCart({commit}, idGood){
+    decGoodInCart({
+        commit
+    }, idGood) {
         commit('decInCart', idGood)
     },
-    delGoodInCart({commit}, idGood){
+    delGoodInCart({
+        commit
+    }, idGood) {
         commit('delInCart', idGood)
     }
 
@@ -67,7 +81,7 @@ const mutations = {
 
     },
 
-    incInCart(state, idGood){
+    incInCart(state, idGood) {
         state.goodsOnCart.map(item => {
             if (item.id == idGood) {
                 return item.count++
@@ -75,7 +89,7 @@ const mutations = {
         })
     },
 
-    decInCart(state, idGood){
+    decInCart(state, idGood) {
         state.goodsOnCart.map(item => {
             if (item.id == idGood) {
                 return item.count--
@@ -83,9 +97,9 @@ const mutations = {
         })
     },
 
-    delInCart(state, good){
-        console.log(good, state.goodsOnCart.indexOf(good) )
-        state.goodsOnCart.splice(state.goodsOnCart.indexOf(good),1)
+    delInCart(state, good) {
+        console.log(good, state.goodsOnCart.indexOf(good))
+        state.goodsOnCart.splice(state.goodsOnCart.indexOf(good), 1)
     }
 
 }

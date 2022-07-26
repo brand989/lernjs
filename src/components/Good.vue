@@ -1,8 +1,13 @@
 <template>
     <div class="good">
         <img :src="[url]">
-        <p class="good-name">{{ GOODS[good].name }}</p>
-        <p class="price-name">{{ GOODS[good].price }}</p>
+        <p class="good-name">{{ GOODS[goodId].name }}</p>
+        <p class="price-name">{{ GOODS[goodId].price }}</p>
+
+        <template v-if="cart">
+            <p >{{count}}</p>
+            <p>Общей стоимостью {{count*GOODS[goodId].price}} рублей</p>
+        </template>
         
     </div>
 </template>
@@ -16,11 +21,14 @@ export default {
 
     
     props: {
-        good: Object
+        goodId: Number,
+        count: Number,
+        cart: Boolean
     },
     data() {
         return {
-            url: './img/nofotos.jpeg'
+            url: './img/nofotos.jpeg',
+            cart: false
         }
     },
    

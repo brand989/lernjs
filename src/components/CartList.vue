@@ -1,11 +1,17 @@
 <template>
     <div class="cart-list">
-        <div class="goods" v-for="item in GOODSONCART" :key="item">
-            <Good :good="item.id" />
-            <p>Общей стоимостью {{item.count}}</p>
-            <Button @myEvent="incGood(item.id)">+</Button>
-            <Button @myEvent="decGood(item)">-</Button>
-            <Button @myEvent="delGood(item)">Удалить товар</Button>
+        <div v-if="GOODSONCART.length">
+            <div class="goods" v-for="item in GOODSONCART" :key="item">
+                <Good :goodId="item.id" :count="item.count" :cart="true" />
+                <p>{{ item.count }}</p>
+                <Button @myEvent="incGood(item.id)">+</Button>
+                <Button @myEvent="decGood(item)">-</Button>
+                <Button @myEvent="delGood(item)">Удалить товар</Button>
+            </div>
+            <div>Общая стоимость товаров: {{ SUMPRODUCTPRICECART }} </div>
+        </div>
+        <div v-else>
+           Корзина пуста
         </div>
 
     </div>
@@ -20,10 +26,10 @@ export default {
     components: { Good, Button },
 
     computed: {
-        ...mapGetters('goods', ['GOODSONCART']),
+        ...mapGetters('goods', ['GOODSONCART', 'GOODS', 'SUMPRODUCTPRICECART']),
     },
     methods: {
-        countGood(id) {
+        countGoods(id) {
             return this.GOODSONCART.find(good => good.id == id)
         },
 
@@ -31,7 +37,7 @@ export default {
             this.incGoodInCart(id)
         },
         decGood(good) {
-            if (this.countGood(good.id).count > 1) {
+            if (this.countGoods(good.id).count > 1) {
                 this.decGoodInCart(good.id)
             } else {
                 this.delGoodInCart(good)

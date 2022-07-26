@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="goods-list">
-            <div class="goods" v-for="item in GOODSONPAGE" :key="item">
-                <Good :good="item" />
+            <div class="goods" v-for="item in addGoodsOnPage" :key="item">
+                <Good :goodId="item" />
                 <Button @myEvent="eventclick(item)">купить</Button>
             </div>
-
+            <Button @myEvent="moreGoods()" v-if="isGoods">Еще товары</Button>
         </div>
     </div>
 
@@ -20,6 +20,12 @@ import Button from './Button.vue'
 
 export default {
     components: { Good, Button },
+    data() {
+        return {
+            countGoodsOnPage: 1,
+            isGoods: true,
+        }
+    },
 
     methods: {
         findGoodsInCart(id) {
@@ -32,16 +38,29 @@ export default {
             } else {
                 this.incGoodInCart(id)
             }
-            
+
         },
         ...mapActions('goods', [
             'addGoodInCart', 'incGoodInCart'
         ]),
+        moreGoods() {
+            this.countGoodsOnPage++
+
+            if (this.countGoodsOnPage == this.GOODSONPAGE.length - 1 ) {
+                this.isGoods = false
+            }
+
+        }
     },
 
     computed: {
         ...mapGetters('goods', ['GOODSONPAGE', 'GOODSONCART']),
 
+        addGoodsOnPage() {
+            return this.GOODSONPAGE.filter((item, index) => {
+                return index <= this.countGoodsOnPage
+            })
+        },
 
     }
 
