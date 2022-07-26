@@ -2,8 +2,10 @@
     <div class="cart-list">
         <div class="goods" v-for="item in GOODSONCART" :key="item">
             <Good :good="item.id" />
-            <p>{{ item.count }} штук</p>
-            <Button @myEvent="eventclick(item.id)">+</Button>
+            <p>Общей стоимостью {{item.count}}</p>
+            <Button @myEvent="incGood(item.id)">+</Button>
+            <Button @myEvent="decGood(item)">-</Button>
+            <Button @myEvent="delGood(item)">Удалить товар</Button>
         </div>
 
     </div>
@@ -21,11 +23,26 @@ export default {
         ...mapGetters('goods', ['GOODSONCART']),
     },
     methods: {
-        eventclick(id) {
-            this.addGoodInCart(id)
+        countGood(id) {
+            return this.GOODSONCART.find(good => good.id == id)
+        },
+
+        incGood(id) {
+            this.incGoodInCart(id)
+        },
+        decGood(good) {
+            if (this.countGood(good.id).count > 1) {
+                this.decGoodInCart(good.id)
+            } else {
+                this.delGoodInCart(good)
+            }
+
+        },
+        delGood(good) {
+            this.delGoodInCart(good)
         },
         ...mapActions('goods', [
-            'addGoodInCart',
+            'incGoodInCart', 'decGoodInCart', 'delGoodInCart'
         ]),
     },
 

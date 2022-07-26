@@ -22,20 +22,27 @@ export default {
     components: { Good, Button },
 
     methods: {
-        // findGoods(id){
-        //     return store.goods.getters.GOODSONCART.filter(item => item.id == id).length
-        // },
+        findGoodsInCart(id) {
+            return this.GOODSONCART.filter(item => item.id == id).length
+        },
 
         eventclick(id) {
-            this.addGoodInCart(id)
+            if (!this.findGoodsInCart(id)) {
+                this.addGoodInCart(id)
+            } else {
+                this.incGoodInCart(id)
+            }
+            
         },
         ...mapActions('goods', [
-            'addGoodInCart',
+            'addGoodInCart', 'incGoodInCart'
         ]),
     },
 
     computed: {
-        ...mapGetters('goods', ['GOODSONPAGE'], ['GOODSONCART']),
+        ...mapGetters('goods', ['GOODSONPAGE', 'GOODSONCART']),
+
+
     }
 
 }
