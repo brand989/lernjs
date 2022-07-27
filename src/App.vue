@@ -1,19 +1,29 @@
 <template>
   <div>
-    <header class="header">
-      <div v-bind:class="[logo]"> My shop </div>
-      <div class="cart" v-bind:class="{ invisible: isActive }">
-        <CartList />
-      </div>
-      <Button @myEvent="eventclick">Корзина</Button>
+    <div :class="{ dark: !isWindow }">
+      <header class="header">
+        <div :class="[logo]"> My shop </div>
+        <div class="cart" :class="{ invisible: isActive }">
+          <CartList />
+          <Button @myEvent="makeOrder" v-if="GOODSONCART.length">Оформить заказ</Button>
+        </div>
+        <Button @myEvent="eventclick">Корзина</Button>
 
+      </header>
+      <main>
+        <h1>Товары</h1>
+        <GoodList />
 
-    </header>
-    <main>
-      <h1>Товары</h1>
-      <GoodList />
-    </main>
+      </main>
+    </div>
+    <div class="window" :class="{ invisible: isWindow }">
+      <Button @myEvent="makeOrder">Закрыть</Button>
+      <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @formAction="makeOrder" />
+    </div>
+    <notifications group="foo" />
+
   </div>
+
 </template>
 
 <script>
@@ -21,31 +31,48 @@ import { mapGetters, mapActions } from 'vuex'
 import Button from './components/Button.vue'
 import GoodList from './components/GoodList.vue'
 import CartList from './components/CartList.vue'
+import Form from './components/Form.vue'
 
 
 export default {
   components: {
-    Button, GoodList, CartList
+    Button, GoodList, CartList, Form
   },
   data() {
     return {
       logo: 'logo',
-      isActive: true
+      isActive: true,
+      isWindow: true,
+      isNotice: false
     }
   },
   methods: {
-    eventclick() {
-      this.isActive = this.isActive ? false : true
+    makeOrder() {
+      this.isWindow = !this.isWindow
     },
+    eventclick() {
+      this.isActive = !this.isActive
+      
+    },
+
+    //  async delete() {
+    //     console.log('key')
+    //     this.delNotice()
+    //   },
 
     ...mapActions('goods', [
       'requestData',
+    ]),
+    ...mapActions('notices', [
+      'addnotice', 'delNotice'
     ]),
 
   },
 
   computed: {
-    ...mapGetters('goods', ['GOODS']),
+    ...mapGetters('goods', ['GOODS', 'GOODSONCART', 'SUMPRODUCTPRICECART']),
+    ...mapGetters('notices', ['notices'])
+
   },
   mounted() {
     this.requestData(1)
@@ -83,6 +110,16 @@ main h1 {
   display: none;
 }
 
+.dark::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: black;
+  position: absolute;
+  z-index: 1;
+  opacity: .3;
+
+}
 
 .cart {
   position: absolute;
@@ -91,5 +128,17 @@ main h1 {
   right: 10px;
   top: 150px;
   padding: 15px;
+}
+
+
+.window {
+  width: auto;
+  height: 400px;
+  padding: 30px;
+  position: absolute;
+  top: 300px;
+  left: 300px;
+  z-index: 2;
+  background-color: white;
 }
 </style>

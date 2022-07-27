@@ -59,6 +59,9 @@ const actions = {
         commit
     }, idGood) {
         commit('delInCart', idGood)
+    },
+    clearCart({commit}){
+        commit('clearCart')
     }
 
 }
@@ -98,8 +101,10 @@ const mutations = {
     },
 
     delInCart(state, good) {
-        console.log(good, state.goodsOnCart.indexOf(good))
         state.goodsOnCart.splice(state.goodsOnCart.indexOf(good), 1)
+    },
+    clearCart(state, good) {
+        state.goodsOnCart = []
     }
 
 }
