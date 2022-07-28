@@ -25,11 +25,9 @@ const getters = {
 const actions = {
     requestData({
         commit
-    }, page) {
-        if (!page) {
-            return
-        }
-        fetch(`/itemslist/${page}`, {
+    }) {
+       
+        fetch(`/itemslist/`, {
                 method: 'GET'
             })
             .then(res => {
@@ -73,10 +71,7 @@ const mutations = {
         state.goodsOnPage.push(...Object.keys(newData))
     },
 
-
-
     addInCart(state, idGood) {
-
         state.goodsOnCart.push({
             id: idGood,
             count: 1
@@ -103,6 +98,7 @@ const mutations = {
     delInCart(state, good) {
         state.goodsOnCart.splice(state.goodsOnCart.indexOf(good), 1)
     },
+    
     clearCart(state, good) {
         state.goodsOnCart = []
     }

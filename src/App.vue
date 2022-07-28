@@ -5,21 +5,23 @@
         <div :class="[logo]"> My shop </div>
         <div class="cart" :class="{ invisible: isActive }">
           <CartList />
-          <Button @myEvent="makeOrder" v-if="GOODSONCART.length">Оформить заказ</Button>
+          <Button @myEvent="visibleForm" v-if="GOODSONCART.length">Оформить заказ</Button>
         </div>
         <Button @myEvent="eventclick">Корзина</Button>
-
       </header>
+
       <main>
         <h1>Товары</h1>
         <GoodList />
-
       </main>
+
     </div>
+
     <div class="window" :class="{ invisible: isWindow }">
-      <Button @myEvent="makeOrder">Закрыть</Button>
-      <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @formAction="makeOrder" />
+      <Button @myEvent="visibleForm">Закрыть</Button>
+      <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @closeForm="visibleForm" />
     </div>
+
     <notifications group="foo" />
 
   </div>
@@ -42,40 +44,31 @@ export default {
     return {
       logo: 'logo',
       isActive: true,
-      isWindow: true,
-      isNotice: false
+      isWindow: true
     }
   },
   methods: {
-    makeOrder() {
+    visibleForm() {
       this.isWindow = !this.isWindow
     },
+
     eventclick() {
       this.isActive = !this.isActive
-      
-    },
 
-    //  async delete() {
-    //     console.log('key')
-    //     this.delNotice()
-    //   },
+    },
 
     ...mapActions('goods', [
       'requestData',
-    ]),
-    ...mapActions('notices', [
-      'addnotice', 'delNotice'
-    ]),
+    ])
 
   },
 
   computed: {
-    ...mapGetters('goods', ['GOODS', 'GOODSONCART', 'SUMPRODUCTPRICECART']),
-    ...mapGetters('notices', ['notices'])
+    ...mapGetters('goods', ['GOODS', 'GOODSONCART', 'SUMPRODUCTPRICECART'])
 
   },
   mounted() {
-    this.requestData(1)
+    this.requestData()
   }
 
 };

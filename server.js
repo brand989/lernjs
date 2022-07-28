@@ -13,11 +13,8 @@ app.listen(port, () => {
 })
 
 
-
-
-app.get('/itemslist/:page', (req, res) => {
-    const number = req.params.page
-    fs.readFile(`./public/database/database${number}.json`, 'utf8', (err, data) => {
+app.get('/itemslist/', (req, res) => {
+    fs.readFile(`./public/database/database.json`, 'utf8', (err, data) => {
         console.log(err)
         res.send(data)
     })
@@ -25,11 +22,6 @@ app.get('/itemslist/:page', (req, res) => {
 
 
 app.post('/itemslist', ( req, res) => {
-    // 1) Прочитать существующий файл page3.json
-    // 2) Узнать, какой ID был последним
-    // 3) Создать объект с новым ID и с данными, пришедшими от клиента
-    // 4) Записать обновленный JSON в файл
-    // 5) Отдать результат обратно клиенту
     const filePath = './public/database/datatest.json'
   
     fs.readFile(filePath, 'utf8', (err, data) => {

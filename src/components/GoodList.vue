@@ -20,6 +20,7 @@ import Button from './Button.vue'
 
 export default {
     components: { Good, Button },
+
     data() {
         return {
             countGoodsOnPage: 1,
@@ -40,13 +41,15 @@ export default {
             }
 
         },
+
         ...mapActions('goods', [
             'addGoodInCart', 'incGoodInCart'
         ]),
+
         moreGoods() {
             this.countGoodsOnPage++
 
-            if (this.countGoodsOnPage == this.GOODSONPAGE.length - 1 ) {
+            if (this.countGoodsOnPage == this.GOODSONPAGE.length - 1) {
                 this.isGoods = false
             }
 
