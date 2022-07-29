@@ -3,7 +3,6 @@
         <div v-if="GOODSONCART.length">
             <div class="goods" v-for="item in GOODSONCART" :key="item">
                 <Good :goodId="item.id" :count="item.count" :cart="true" />
-                <p>{{ item.count }}</p>
                 <Button @myEvent="incGood(item.id)">+</Button>
                 <Button @myEvent="decGood(item)">-</Button>
                 <Button @myEvent="delGood(item)">Удалить товар</Button>
@@ -55,5 +54,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.goods{
+    display: flex;
+    max-height: 150px;
+}
+
 </style>

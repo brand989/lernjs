@@ -1,10 +1,14 @@
 <template>
     <div>
         <div class="goods-list">
-            <div class="goods" v-for="item in addGoodsOnPage" :key="item">
+            <div class="good" v-for="item in addGoodsOnPage" :key="item">
                 <Good :goodId="item" />
-                <Button @myEvent="eventclick(item)">купить</Button>
+                <Button @myEvent="addGoodCart(item)" class="button">
+                <font-awesome-icon icon="fa-solid fa-cart-arrow-down" />
+                Добавить в корзину</Button>
             </div>
+        </div>
+        <div class="more">
             <Button @myEvent="moreGoods()" v-if="isGoods">Еще товары</Button>
         </div>
     </div>
@@ -23,7 +27,7 @@ export default {
 
     data() {
         return {
-            countGoodsOnPage: 1,
+            countGoodsOnPage: 2,
             isGoods: true,
         }
     },
@@ -33,7 +37,7 @@ export default {
             return this.GOODSONCART.filter(item => item.id == id).length
         },
 
-        eventclick(id) {
+        addGoodCart(id) {
             if (!this.findGoodsInCart(id)) {
                 this.addGoodInCart(id)
             } else {
@@ -47,9 +51,9 @@ export default {
         ]),
 
         moreGoods() {
-            this.countGoodsOnPage++
+            this.countGoodsOnPage+=3
 
-            if (this.countGoodsOnPage == this.GOODSONPAGE.length - 1) {
+            if (this.countGoodsOnPage >= this.GOODSONPAGE.length - 1) {
                 this.isGoods = false
             }
 
@@ -70,8 +74,39 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .goods-list {
     display: flex;
+    flex-wrap: wrap;
+
+    .good {
+        border-radius: 3px;
+        width: 400px;
+        margin: 0px 50px 20px 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding-top: 10px;
+        padding-bottom: 30px;
+    }
+
+    .good:hover {
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .button {
+
+        margin-left: 20px;
+        width: 50%;
+
+    }
+
+
+}
+
+.more {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 </style>

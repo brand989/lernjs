@@ -1,14 +1,20 @@
 <template>
-    <div class="good">
-        <img :src="[url]">
-        <p class="good-name">{{ GOODS[goodId].name }}</p>
-        <p class="price-name">{{ GOODS[goodId].price }}</p>
+    <div class="good-content" :class="{ goodcontentcart: cart }">
+        <img :src="[GOODS[goodId].url]">
+        <div class="good-info">
+            <p class="price-name">{{ GOODS[goodId].price }} ₽</p>
+            <p class="good-name">{{ GOODS[goodId].name }}</p>
+           
+           <template v-if="cart">
+                <p>{{ count }} Шт.</p>
+                <p>Итого:{{ count * GOODS[goodId].price }} рублей</p>
+            </template>
 
-        <template v-if="cart">
-            <p >{{count}}</p>
-            <p>Общей стоимостью {{count*GOODS[goodId].price}} рублей</p>
-        </template>
-        
+        </div>
+
+
+
+
     </div>
 </template>
 
@@ -19,7 +25,9 @@ import { mapGetters } from 'vuex'
 
 export default {
 
-    
+
+
+
     props: {
         goodId: Number,
         count: Number,
@@ -31,7 +39,7 @@ export default {
             cart: false
         }
     },
-   
+
     computed: {
         ...mapGetters('goods', ['GOODS']),
     }
@@ -39,15 +47,39 @@ export default {
 }
 </script>
 
-<style>
-.good {
-    width: 200px;
-    border: 1px solid black;
-    border-radius: 3px;
-    margin: 5px;
+<style lang="scss">
+.good-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+
+    .good-info {
+        width: 100%;
+        padding-left: 40px;
+
+        .price-name {
+
+            font-size: 28px;
+            line-height: 24px;
+            color: #242424;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+    }
+
+    img {
+        max-width: 90%;
+    }
 }
 
-img {
-    width: 150px;
+.goodcontentcart {
+    flex-direction: row;
+
+    img {
+        max-height: 100%;
+
+    }
+
 }
 </style>
