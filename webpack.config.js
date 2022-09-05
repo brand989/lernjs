@@ -3,6 +3,10 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
     entry: './src/index.js',
+    watch: true,
+    watchOptions: {
+        ignored: /node_modules/,
+      },
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'shop.js',

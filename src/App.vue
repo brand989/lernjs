@@ -1,40 +1,40 @@
 <template>
 
-    <div class="wrapper" :class="{ dark: !isWindow }">
-      <div class="content">
-        <header class="header">
-          <div class="header-container">
-            <div class="logo"> BrandShop </div>
-            <div class="cart" :class="{ invisible: isActive }">
-              <CartList />
-              <Button @myEvent="visibleForm" v-if="GOODSONCART.length">Оформить заказ</Button>
-            </div>
-            <Button @myEvent="eventclick">
-
-              <font-awesome-icon icon="fa-solid fa-cart-shopping" />
-            </Button>
+  <div class="wrapper" :class="{ dark: !isWindow }">
+    <div class="content">
+      <header class="header">
+        <div class="header-container">
+          <div class="logo"> BrandShop </div>
+          <div class="cart" :class="{ invisible: isActive }">
+            <CartList />
+            <Button @myEvent="visibleForm" v-if="GOODSONCART.length">Оформить заказ</Button>
           </div>
-        </header>
+          <Button @myEvent="eventclick">
 
-        <main>
-          <h1>Каталог</h1>
-          <GoodList />
-        </main>
-      </div>
-
-      <footer>
-        <div class="footer-text">
-          <p> 2004-2022 © BrandShop — модный интернет-магазин обуви. Все права защищены. Доставка по всей России. </p>
+            <font-awesome-icon icon="fa-solid fa-cart-shopping" />
+          </Button>
         </div>
+      </header>
 
-      </footer>
-      <div class="window" :class="{ invisible: isWindow }">
-        <Button @myEvent="visibleForm">Закрыть</Button>
-        <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @closeForm="visibleForm" />
+      <main>
+        <h1>Каталог</h1>
+        <GoodList />
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-text">
+        <p> 2004-2022 © BrandShop — модный интернет-магазин обуви. Все права защищены. Доставка по всей России. </p>
       </div>
 
-      <notifications group="foo" />
+    </footer>
+    <div class="window" :class="{ invisible: isWindow }">
+      <Button @myEvent="visibleForm">Закрыть</Button>
+      <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @closeForm="visibleForm" />
     </div>
+
+    <notifications group="foo" />
+  </div>
 
 
 </template>
@@ -126,15 +126,17 @@ body {
           }
 
           .cart {
-            color: white;
+            color: rgb(0, 0, 0);
             font-weight: bold;
             padding: 15px;
             position: absolute;
-            background-color: #eb6fd6;
-            right: 10px;
-            top: 150px;
+            background-color: #ffffff;
+            border: 1px black solid;
+            right: 215px;
+            top: 95px;
             padding: 15px;
-            width: 50%;
+            width: 30%;
+            z-index: 1;
           }
 
         }

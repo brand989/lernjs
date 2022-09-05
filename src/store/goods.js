@@ -12,13 +12,13 @@ const getters = {
     GOODSONPAGE: state => {
         return state.goodsOnPage
     },
-    GOODSONCART: state => {
+    GOODSONCART:state => {
         return state.goodsOnCart
     },
     SUMPRODUCTPRICECART: state => {
-       return state.goodsOnCart.reduce((sum, item) => {
-            return sum + item.count*state.goods[item.id].price
-            
+        return state.goodsOnCart.reduce((sum, item) => {
+            return sum + item.count * state.goods[item.id].price
+
         }, 0)
     }
 }
@@ -26,7 +26,7 @@ const actions = {
     requestData({
         commit
     }) {
-       
+
         fetch(`/itemslist/`, {
                 method: 'GET'
             })
@@ -58,7 +58,9 @@ const actions = {
     }, idGood) {
         commit('delInCart', idGood)
     },
-    clearCart({commit}){
+    clearCart({
+        commit
+    }) {
         commit('clearCart')
     }
 
@@ -98,14 +100,12 @@ const mutations = {
     delInCart(state, good) {
         state.goodsOnCart.splice(state.goodsOnCart.indexOf(good), 1)
     },
-    
+
     clearCart(state, good) {
         state.goodsOnCart = []
     }
 
 }
-
-
 
 
 export default {

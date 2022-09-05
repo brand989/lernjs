@@ -1,54 +1,27 @@
 <template>
     <div class="cart-list">
+        <h1>Корзина</h1>
         <div v-if="GOODSONCART.length">
             <div class="goods" v-for="item in GOODSONCART" :key="item">
                 <Good :goodId="item.id" :count="item.count" :cart="true" />
-                <Button @myEvent="incGood(item.id)">+</Button>
-                <Button @myEvent="decGood(item)">-</Button>
-                <Button @myEvent="delGood(item)">Удалить товар</Button>
             </div>
-            <div>Общая стоимость товаров: {{ SUMPRODUCTPRICECART }} </div>
+            <div class="basket-price">Общая стоимость товаров: {{ SUMPRODUCTPRICECART }} </div>
         </div>
         <div v-else>
            Корзина пуста
         </div>
-
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import Good from './Good.vue'
-import Button from './Button.vue'
+
 
 export default {
-    components: { Good, Button },
-
+    components: { Good },
     computed: {
-        ...mapGetters('goods', ['GOODSONCART', 'GOODS', 'SUMPRODUCTPRICECART']),
-    },
-    methods: {
-        countGoods(id) {
-            return this.GOODSONCART.find(good => good.id == id)
-        },
-
-        incGood(id) {
-            this.incGoodInCart(id)
-        },
-        decGood(good) {
-            if (this.countGoods(good.id).count > 1) {
-                this.decGoodInCart(good.id)
-            } else {
-                this.delGoodInCart(good)
-            }
-
-        },
-        delGood(good) {
-            this.delGoodInCart(good)
-        },
-        ...mapActions('goods', [
-            'incGoodInCart', 'decGoodInCart', 'delGoodInCart'
-        ]),
+        ...mapGetters('goods', ['GOODSONCART', 'SUMPRODUCTPRICECART']),
     },
 
 }
@@ -58,6 +31,10 @@ export default {
 .goods{
     display: flex;
     max-height: 150px;
+}
+
+.basket-price{
+    margin-top: 5px;
 }
 
 </style>
