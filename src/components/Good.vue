@@ -3,7 +3,7 @@
 
         <div class="good-info" v-if="!cart">
             <img :src="[GOODS[goodId].url]">
-            <p class="price-name">{{ GOODS[goodId].price }} ₽</p>
+            <p class="price-name">{{ format(GOODS[goodId].price) }} ₽</p>
             <p class="good-name">{{ GOODS[goodId].name }}</p>
         </div>
 
@@ -21,7 +21,7 @@
             </div>
 
             <div class="cart-info-price">
-                <p>{{ count * GOODS[goodId].price }} рублей</p>
+                <p>{{ format(count * GOODS[goodId].price) }} рублей</p>
             </div>
 
         </div>
@@ -33,7 +33,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import Button from './Button.vue'
-
 
 export default {
     components: { Button },
@@ -74,6 +73,11 @@ export default {
         ...mapActions('goods', [
             'incGoodInCart', 'decGoodInCart', 'delGoodInCart'
         ]),
+
+        format(value) {
+            return new Intl.NumberFormat("ru").format(value)
+        }
+
     },
 
 }
@@ -115,12 +119,14 @@ export default {
 
         .cart-info-name {
             max-width: 30%;
+            align-items: center;
+            display: flex;
 
             img {
                 max-width: 90%;
                 max-height: 80%;
                 float: left;
-                margin-right: 5px;
+                margin-right: 35px;
             }
 
             .good-name {
@@ -170,7 +176,9 @@ export default {
 
         }
 
-
+        .cart-info-price {
+            padding-top: 50px;
+        }
 
     }
 

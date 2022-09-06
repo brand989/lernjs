@@ -5,14 +5,19 @@
       <header class="header">
         <div class="header-container">
           <div class="logo"> BrandShop </div>
-          <div class="cart" :class="{ invisible: isActive }">
-            <CartList />
-            <Button @myEvent="visibleForm" v-if="GOODSONCART.length">Оформить заказ</Button>
+          <div class="cart-block">
+            <div class="cart" :class="{ invisible: isActive }">
+              <CartList />
+              <Button @myEvent="visibleForm('close')" v-if="GOODSONCART.length">Заказать</Button>
+            </div>
+            <Button @myEvent="eventclick">
+              <font-awesome-icon icon="fa-solid fa-cart-shopping" />
+            </Button>
           </div>
-          <Button @myEvent="eventclick">
 
-            <font-awesome-icon icon="fa-solid fa-cart-shopping" />
-          </Button>
+
+
+
         </div>
       </header>
 
@@ -29,11 +34,11 @@
 
     </footer>
     <div class="window" :class="{ invisible: isWindow }">
-      <Button @myEvent="visibleForm">Закрыть</Button>
+      <Button class="button-close" @myEvent="visibleForm">Х</Button>
       <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @closeForm="visibleForm" />
     </div>
 
-    <notifications group="foo" />
+    <notifications group="foo" position="bottom right" />
   </div>
 
 
@@ -59,8 +64,14 @@ export default {
     }
   },
   methods: {
-    visibleForm() {
+    visibleForm(arg) {
+
       this.isWindow = !this.isWindow
+
+      if (arg == "close") {
+        this.isActive = !this.isActive
+      }
+
     },
 
     eventclick() {
@@ -125,19 +136,24 @@ body {
             font-size: 40px;
           }
 
-          .cart {
-            color: rgb(0, 0, 0);
-            font-weight: bold;
-            padding: 15px;
-            position: absolute;
-            background-color: #ffffff;
-            border: 1px black solid;
-            right: 215px;
-            top: 95px;
-            padding: 15px;
-            width: 30%;
-            z-index: 1;
+          .cart-block {
+            position: relative;
+
+            .cart {
+              color: rgb(0, 0, 0);
+              font-weight: bold;
+              padding: 15px;
+              position: absolute;
+              background-color: #ffffff;
+              border: 1px black solid;
+              right: 11%;
+              top: 95px;
+              padding: 15px;
+              width: 500px;
+              z-index: 1;
+            }
           }
+
 
         }
 
@@ -211,18 +227,36 @@ body {
   position: absolute;
   z-index: 1;
   opacity: .3;
+  position: fixed;
 
 }
 
 
 .window {
-  width: auto;
-  height: 400px;
-  padding: 30px;
-  position: absolute;
-  top: 300px;
-  left: 300px;
+  width: 100%;
+  padding: 40px 50px 90px;
+  top: 20%;
   z-index: 2;
-  background-color: white;
+  position: fixed;
+  
+
+  .button-close {
+    border-radius: 50%;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px #e6e3e3 solid;
+    color: #717171;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 10px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
-    <form v-on:submit.prevent="makeOrder">
-        <Input @inputValue='getName' :regExp="/^[a-zA-Z]+$/" :textErorr="'Имя должно быть написано только буквами'" />
+    <form class="form" v-on:submit.prevent="makeOrder">
+        <Input @inputValue='getName' :regExp="/^[a-zA-Z]+$/" :textErorr="'Имя должно быть написано только буквами'"
+            :name="'Имя'" />
         <Input @inputValue='getPhone' :regExp="/^\+[78]\(\d{3}\)\d{3}-\d{4}\b/"
-            :textErorr="'Телефон должен быть формата +7(ХХХ)ХХХ-ХХХХ'" />
-        <Input @inputValue='getMail' :regExp="/^[a-z]+[\.\-]*?[a-z]+\@[a-z]+\.ru/"
-            :textErorr="'E-mail введен не верно'" />
-
-        <input type="submit" class="input" v-bind:disabled="!disabledSumbit">
+            :textErorr="'Телефон должен быть формата +7(ХХХ)ХХХ-ХХХХ'" :name="'Телефон'" />
+        <Input @inputValue='getMail' :regExp="/^[a-z]+[\.\-]*?[a-z]+\@[a-z]+\.ru/" :textErorr="'E-mail введен не верно'"
+            :name="'Электронная почта'" />
+        <input type="submit" class="input-submit" v-bind:disabled="!disabledSumbit" value="Оформить заказ">
     </form>
 </template>
 
@@ -54,7 +54,8 @@ export default {
             this.$notify({
                 group: 'foo',
                 title: 'Спасибо за Ваш заказ',
-                text: 'Мы свяжемся с Вами в ближайшее время'
+                text: 'Мы свяжемся с Вами в ближайшее время',
+
             });
 
 
@@ -109,12 +110,39 @@ export default {
 
 </script>
 
-<style>
-.isvalid {
-    border: 1px solid red;
+<style  lang="scss" module>
+.form {
+    background-color: white;
+    padding: 20px;
+    width: 500px;
 }
 
 .isvalidtext {
     display: none;
+}
+
+.input-submit {
+    background-color: #ad0e93;
+    border-radius: 3px;
+    box-shadow: inset 5px black;
+    display: inline-block;
+    padding: 5px;
+    margin: 3px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    padding: 15px;
+    outline: none;
+    border: none;
+    position: absolute;
+    right: 45px;
+    bottom: 15px;
+
+    &:hover {
+        background-color: #cb11ab;
+    }
+
+    &:active {
+        background-color: #ad0e93;
+    }
 }
 </style>

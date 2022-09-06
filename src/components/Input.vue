@@ -1,7 +1,8 @@
 <template>
     <div>
+        <p class="name-input">{{ name }}</p>
         <input type="text" class="input" :class="{ isvalid: isValid }" v-on:input="valid" v-model="valueInput">
-        <p :class="{ isvalidtext: !isValid }">{{textErorr}}</p>
+        <p class="textErorr" :class="{ isvalidtext: !isValid }">{{ textErorr }}</p>
     </div>
 
 </template>
@@ -10,7 +11,8 @@
 export default {
     props: {
         regExp: String,
-        textErorr: String
+        textErorr: String,
+        name: String
     },
 
     data() {
@@ -19,7 +21,7 @@ export default {
             isValid: false,
         }
     },
-    
+
     methods: {
         valid() {
             if (this.valueInput.match(this.regExp) || !this.valueInput) {
@@ -34,11 +36,34 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" module>
 .isvalid {
-    border: 1px solid red;
+    border: 2px solid #ad0e93;
 }
+
 .isvalidtext {
     display: none;
+}
+
+.input {
+    height: 40px;
+    min-width: 400px;
+    padding-left: 15px;
+
+    &:focus-visible, &:active, &:focus {
+        box-shadow: none;
+        outline: none;
+        border: 2px solid #ad0e93;
+    }
+}
+
+.name-input {
+    margin: 8px 0px;
+}
+
+.textErorr {
+    margin: 2px;
+    font-size: 10px;
+    color: #ad0e93;
 }
 </style>
