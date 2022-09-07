@@ -4,7 +4,9 @@
     <div class="content">
       <header class="header">
         <div class="header-container">
-          <div class="logo"> BrandShop </div>
+          <div class="logo">
+            <a href="/">BrandShop </a>
+          </div>
           <div class="cart-block">
             <div class="cart" :class="{ invisible: isActive }">
               <CartList />
@@ -34,8 +36,14 @@
 
     </footer>
     <div class="window" :class="{ invisible: isWindow }">
-      <Button class="button-close" @myEvent="visibleForm">Х</Button>
-      <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @closeForm="visibleForm" />
+      <div class="form-block">
+        <div class="form-field">
+          <Button class="button-close" @myEvent="visibleForm">Х</Button>
+          <Form :goodsOnCart="GOODSONCART" :sumCart="SUMPRODUCTPRICECART" @closeForm="visibleForm" />
+        </div>
+
+      </div>
+
     </div>
 
     <notifications group="foo" position="bottom right" />
@@ -131,7 +139,12 @@ body {
           margin: 0 auto;
 
           .logo {
-            color: white;
+
+            a {
+              color: white;
+              text-decoration: none;
+            }
+
             padding: 30px;
             font-size: 40px;
           }
@@ -151,6 +164,11 @@ body {
               padding: 15px;
               width: 500px;
               z-index: 1;
+
+              @media screen and (max-width: 720px) {
+                width: 300px;
+              }
+
             }
           }
 
@@ -215,9 +233,7 @@ body {
 
 
 
-.invisible {
-  display: none;
-}
+
 
 .dark::before {
   content: '';
@@ -231,14 +247,28 @@ body {
 
 }
 
+.invisible {
+  display: none;
+}
 
 .window {
   width: 100%;
-  padding: 40px 50px 90px;
   top: 20%;
   z-index: 2;
   position: fixed;
-  
+
+
+  .form-block {
+    display: flex;
+    justify-content: center;
+
+    .form-field {
+      position: relative;
+      height: 350px;
+      background-color: white;
+    }
+
+  }
 
   .button-close {
     border-radius: 50%;
@@ -258,5 +288,8 @@ body {
     top: 5px;
     right: 5px;
   }
+
+
+
 }
 </style>

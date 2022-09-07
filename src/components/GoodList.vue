@@ -78,6 +78,7 @@ export default {
 .goods-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 
     .good {
         border-radius: 3px;

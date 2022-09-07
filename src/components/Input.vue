@@ -50,7 +50,13 @@ export default {
     min-width: 400px;
     padding-left: 15px;
 
-    &:focus-visible, &:active, &:focus {
+    @media screen and (max-width: 720px) {
+        min-width: 200px;
+    }
+
+    &:focus-visible,
+    &:active,
+    &:focus {
         box-shadow: none;
         outline: none;
         border: 2px solid #ad0e93;

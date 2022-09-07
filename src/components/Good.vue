@@ -122,6 +122,11 @@ export default {
             align-items: center;
             display: flex;
 
+            @media screen and (max-width: 720px) {
+                display: block;
+            }
+
+
             img {
                 max-width: 90%;
                 max-height: 80%;
@@ -141,6 +146,7 @@ export default {
             align-items: center;
             position: relative;
 
+           
             .button-cart {
                 border-radius: 50%;
                 padding: 0;

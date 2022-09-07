@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import goods from './goods.js'
+import createPersistedState from 'vuex-persistedstate';
 
 
 
@@ -11,7 +12,7 @@ const store = new Vuex.Store({
     modules: {
         goods
     },
-
+    plugins: [createPersistedState()]
     
 })
 

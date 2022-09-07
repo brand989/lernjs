@@ -114,7 +114,6 @@ export default {
 .form {
     background-color: white;
     padding: 20px;
-    width: 500px;
 }
 
 .isvalidtext {
@@ -134,7 +133,7 @@ export default {
     outline: none;
     border: none;
     position: absolute;
-    right: 45px;
+    right: 15px;
     bottom: 15px;
 
     &:hover {
