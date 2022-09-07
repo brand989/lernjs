@@ -15,7 +15,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .button {
     background-color: #ad0e93;
     border-radius: 3px;

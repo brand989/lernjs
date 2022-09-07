@@ -104,7 +104,7 @@ export default {
 };
 </script>
 
-<style lang="scss" module>
+<style lang="scss">
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 

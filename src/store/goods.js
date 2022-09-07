@@ -1,6 +1,3 @@
-
-
-
 const state = {
     goods: {},
     goodsOnPage: [],
@@ -26,9 +23,7 @@ const getters = {
     }
 }
 const actions = {
-    requestData({
-        commit
-    }) {
+    requestData({commit}) {
 
         fetch(`/itemslist/`, {
                 method: 'GET'
@@ -73,7 +68,8 @@ const mutations = {
         state.goods = {
             ...newData
         }
-        state.goodsOnPage.push(...Object.keys(newData))
+
+        state.goodsOnPage = Object.keys(newData)
     },
 
     addInCart(state, idGood) {
@@ -109,8 +105,6 @@ const mutations = {
     }
 
 }
-
-
 
 
 export default {

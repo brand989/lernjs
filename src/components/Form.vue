@@ -110,7 +110,7 @@ export default {
 
 </script>
 
-<style  lang="scss" module>
+<style lang="scss">
 .form {
     background-color: white;
     padding: 20px;

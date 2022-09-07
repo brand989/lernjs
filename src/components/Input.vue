@@ -36,7 +36,7 @@ export default {
 }
 </script>
 
-<style lang="scss" module>
+<style lang="scss">
 .isvalid {
     border: 2px solid #ad0e93;
 }
