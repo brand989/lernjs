@@ -14,9 +14,9 @@
             </div>
 
             <div class="cart-info-count">
-                <Button class="button-cart" @myEvent="incGood(GOODS[goodId].id)">+</Button>
-                <p>{{ count }}</p>
                 <Button class="button-cart" @myEvent="decGood(GOODS[goodId])">-</Button>
+                <p>{{ count }}</p>
+                <Button class="button-cart" @myEvent="incGood(GOODS[goodId].id)">+</Button>
                 <Button class="button-link-cart" @myEvent="delGood(GOODS[goodId])">Удалить товар</Button>
             </div>
 

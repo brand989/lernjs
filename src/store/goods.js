@@ -22,6 +22,7 @@ const getters = {
         }, 0)
     }
 }
+
 const actions = {
     requestData({commit}) {
 
@@ -63,6 +64,7 @@ const actions = {
     }
 
 }
+
 const mutations = {
     setData(state, newData) {
         state.goods = {
