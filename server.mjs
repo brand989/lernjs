@@ -9,7 +9,7 @@ import {Orders} from './src/models/orders.mjs'
 
 let port = process.env.PORT || 3000
 
-const URI = "mongodb://localhost:27017/shopbrand"
+const URI = "mongodb+srv://brand989:kybik123@cluster0.27xwtwx.mongodb.net/schop?retryWrites=true&w=majority"
 
 mongoose.connect(URI).then(() => {
   console.log('ok mongo')
