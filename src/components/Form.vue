@@ -1,4 +1,5 @@
 <template>
+
     <form class="form" v-on:submit.prevent="makeOrder">
         <Input @inputValue='getName' :regExp="/^[a-zA-Z]+$/" :textErorr="'Имя должно быть написано только буквами'"
             :name="'Имя'" />
@@ -7,11 +8,12 @@
         <Input @inputValue='getMail' :regExp="/^[a-z]+[\.\-]*?[a-z]+\@[a-z]+\.ru/" :textErorr="'E-mail введен не верно'"
             :name="'Электронная почта'" />
         <input type="submit" class="input-submit" v-bind:disabled="!disabledSumbit" value="Оформить заказ">
+     
     </form>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Input from './Input.vue'
 
 export default {
@@ -33,8 +35,24 @@ export default {
     },
 
     methods: {
+
+        addIdGoods(arr) {
+
+            return arr.map((item) => {
+                item.idGood = this.GOODS[item.id]._id
+                return item
+            })
+
+
+        },
+
+
+
         makeOrder() {
-            const data = { 'name': this.name, 'phone': this.phone, 'mail': this.mail, 'cart': this.goodsOnCart, 'sumCart': this.sumCart }
+
+            const goodsOrders = this.addIdGoods(this.goodsOnCart)
+
+            const data = { 'name': this.name, 'phone': this.phone, 'mail': this.mail, 'cart': goodsOrders, 'sumCart': this.sumCart }
 
             fetch('/itemslist/', {
                 method: 'POST',
@@ -100,6 +118,8 @@ export default {
     },
 
     computed: {
+        ...mapGetters('goods', ['GOODS', 'GOODSONCART']),
+
         disabledSumbit() {
             return !!(this.name && this.phone && this.mail)
         }

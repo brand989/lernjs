@@ -68,7 +68,6 @@ const mutations = {
         state.goods = {
             ...newData
         }
-
         state.goodsOnPage = Object.keys(newData)
     },
 
