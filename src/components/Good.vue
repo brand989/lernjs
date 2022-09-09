@@ -14,9 +14,9 @@
             </div>
 
             <div class="cart-info-count">
-                <Button class="button-cart" @myEvent="incGood(GOODS[goodId].id)">+</Button>
+                <Button class="button-cart" @myEvent="decGood(goodId, GOODS[goodId] )">-</Button>
                 <p>{{ count }}</p>
-                <Button class="button-cart" @myEvent="decGood(GOODS[goodId])">-</Button>
+                <Button class="button-cart" @myEvent="incGood(goodId)">+</Button>
                 <Button class="button-link-cart" @myEvent="delGood(GOODS[goodId])">Удалить товар</Button>
             </div>
 
@@ -57,11 +57,12 @@ export default {
         },
 
         incGood(id) {
+            console.log(id)
             this.incGoodInCart(id)
         },
-        decGood(good) {
-            if (this.countGoods(good.id).count > 1) {
-                this.decGoodInCart(good.id)
+        decGood(id, good) {
+            if (this.countGoods(id).count > 1) {
+                this.decGoodInCart(id)
             } else {
                 this.delGoodInCart(good)
             }

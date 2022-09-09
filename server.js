@@ -1,10 +1,10 @@
 
-import express from 'express'
-import bodyParser from 'body-parser'
-import mongoose from 'mongoose'
+const express = require('express')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
 
-import {Goods} from './src/models/good.mjs'
-import {Orders} from './src/models/orders.mjs'
+const Goods = require('./src/models/good.js') 
+const Orders = require( './src/models/orders.js')
 
 
 let port = process.env.PORT || 3300
