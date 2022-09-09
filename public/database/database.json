@@ -1,0 +1,14 @@
+{
+    "1":{ "id": 1, "name": "Кросовки Nike", "price": 15000,"url":"./img/canvas1.png" },
+    "2":{ "id": 2, "name": "Кросовки Puma", "price": 10000,"url":"./img/canvas2.png" },
+    "3":{ "id": 3, "name": "Кросовки Kenno", "price": 12000,"url":"./img/canvas3.png" },
+    "4":{ "id": 4, "name": "Кросовки Reebok", "price": 14000,"url":"./img/canvas4.png" },
+    "5":{ "id": 5, "name": "Кросовки Abibas", "price": 11000,"url":"./img/canvas5.png" },
+    "6":{ "id": 6, "name": "Кросовки Lacoste", "price": 18000,"url":"./img/canvas6.png" },
+    "7":{ "id": 7, "name": "Кросовки Sina", "price": 16000,"url":"./img/canvas7.png" },
+    "8":{ "id": 8, "name": "Кросовки HRD", "price": 12000,"url":"./img/canvas8.png" },
+    "9":{ "id": 9, "name": "Кросовки VIH", "price": 13000,"url":"./img/canvas9.png" },
+    "10":{ "id": 10, "name": "Кросовки SKINA", "price": 14000,"url":"./img/canvas10.png" }
+
+
+} 
