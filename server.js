@@ -5,14 +5,15 @@ const mongoose = require('mongoose');
 
 const Goods = require('./src/models/good.js') 
 const Orders = require( './src/models/orders.js')
+require('dotenv').config()
 
 
-let port = process.env.PORT || 3300
+let port = process.env.PORT || 3330
 
-const URI = process.env.MONGODB_URI || "mongodb+srv://brand989:kybik123@cluster0.27xwtwx.mongodb.net/schop?retryWrites=true&w=majority"
+const URI = process.env.MONGODB_URI 
 
 mongoose.connect(URI).then(() => {
-  console.log('ok mongo')
+  console.log(URI)
 }).catch(error => console.log(error));
 
 
