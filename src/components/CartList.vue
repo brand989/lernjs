@@ -5,7 +5,7 @@
             <div class="goods" v-for="item in GOODSONCART" :key="item">
                 <Good :goodId="item.id" :count="item.count" :cart="true" />
             </div>
-            <div class="basket-price">Итого: {{ format(SUMPRODUCTPRICECART) }} рублей </div>
+            <div class="basket-price">Итого: {{SUMPRODUCTPRICECART}} рублей </div>
         </div>
         <div v-else>
             Корзина пуста
@@ -19,20 +19,24 @@ import Good from './Good.vue'
 
 
 export default {
+
     components: { Good },
     computed: {
         ...mapGetters('goods', ['GOODSONCART', 'SUMPRODUCTPRICECART']),
+
     },
+  
     methods: {
         format(value) {
             return new Intl.NumberFormat("ru").format(value)
         }
-    },
+
+    }
 
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 .goods {
     display: flex;
     max-height: 150px;
@@ -44,5 +48,4 @@ export default {
     right: 25px;
     bottom: 25px;
 }
-
 </style>

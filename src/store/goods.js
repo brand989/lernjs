@@ -12,18 +12,28 @@ const getters = {
     GOODSONPAGE: state => {
         return state.goodsOnPage
     },
-    GOODSONCART:state => {
+    GOODSONCART: state => {
+
         return state.goodsOnCart
     },
     SUMPRODUCTPRICECART: state => {
-        return state.goodsOnCart.reduce((sum, item) => {
-            return sum + item.count * state.goods[item.id].price
+        if (state.goods[0]) {
+            return state.goodsOnCart.reduce((sum, item) => {
+                console.log('state', state.goods[item.id].price )
+                return sum + item.count * state.goods[item.id].price
 
-        }, 0)
+            }, 0)
+        } else {
+            console.log('0')
+            return 0
+        }
+
     }
 }
 const actions = {
-    requestData({commit}) {
+    requestData({
+        commit
+    }) {
 
         fetch(`/itemslist/`, {
                 method: 'GET'
@@ -69,6 +79,7 @@ const mutations = {
             ...newData
         }
         state.goodsOnPage = Object.keys(newData)
+
     },
 
     addInCart(state, idGood) {
